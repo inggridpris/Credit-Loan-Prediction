@@ -53,6 +53,7 @@ for i in range (0, len(features)):
 df['loan_status'].value_counts()
 
 sns.countplot(y=df['loan_status'])
+plt.savefig('Loan_status.jpg')
 
 """approved= Fully Paid
 reject= Charged Off , Does not meet the credit policy Sattus:Charged Off , Default, Does not meet the credit policy Status:Fully Paid
@@ -89,28 +90,34 @@ nums=['Unnamed: 0','id','member_id','loan_amnt','funded_amnt','funded_amnt_inv',
 cats1 = ['term','grade','sub_grade','home_ownership','verification_status','pymnt_plan','purpose','title']
 
 sns.countplot(x=df2['loan_status'])
+plt.savefig('Status.jpg')
 
 sns.countplot(y=df2['purpose'])
+plt.savefig('purpose.jpg')
 
 newpalette=['#FFABE1','#937DC2']
 
 sns.countplot(x='term', data=df2, hue='loan_status', palette=newpalette)
 plt.tight_layout()
+plt.savefig('term.jpg')
 
 sns.countplot(x='grade', data=df2, hue='loan_status', palette=newpalette)
 plt.tight_layout()
+plt.savefig('grade.jpg')
 
 sns.countplot(y='sub_grade', data=df2, hue='loan_status', palette=newpalette)
 plt.tight_layout()
 
 sns.countplot(x='home_ownership', data=df2, hue='loan_status', palette=newpalette)
 plt.tight_layout()
+plt.savefig('own.jpg')
 
 sns.countplot(x='pymnt_plan', data=df2, hue='loan_status', palette=newpalette)
 plt.tight_layout()
 
 sns.countplot(y='purpose', data=df2, hue='loan_status', palette=newpalette)
 plt.tight_layout()
+plt.savefig('purpose_loan.jpg')
 
 nums1 = ['loan_amnt','funded_amnt','funded_amnt_inv','int_rate','installment','annual_inc','inq_last_6mths','mths_since_last_delinq','mths_since_last_record','open_acc','total_acc','total_rec_prncp']
 
@@ -122,7 +129,23 @@ for i in range(0, len(features)):
     #plt.xlabel(features[i])
     plt.tight_layout()
 
+color=['#319DA0','#FFD39A']
 
+sns.histplot(x='loan_amnt', data=df2, palette=color, hue='loan_status')
+plt.tight_layout()
+plt.savefig('loanamnt.jpg')
+
+sns.histplot(x='int_rate', data=df2, palette=color, hue='loan_status')
+plt.tight_layout()
+plt.savefig('intrate.jpg')
+
+sns.histplot(x='installment', data=df2, palette=color, hue='loan_status')
+plt.tight_layout()
+plt.savefig('install.jpg')
+
+sns.histplot(x='funded_amnt', data=df2, palette=color, hue='loan_status')
+plt.tight_layout()
+plt.savefig('funded.jpg')
 
 """## Data Preprocessing"""
 
@@ -514,6 +537,9 @@ eval_classification(xg1)
 
 show_feature_importance(xg1)
 
+from xgboost import XGBClassifier
+
+xg.fit(x_test,y_test)
 y_pred_proba = xg.predict_proba(x_test)[:][:,1]
 
 df_actual_predicted = pd.concat([pd.DataFrame(np.array(y_test), columns=['y_actual']), pd.DataFrame(y_pred_proba, columns=['y_pred_proba'])], axis=1)
@@ -532,6 +558,7 @@ plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
 plt.title('ROC Curve')
 plt.legend()
+plt.savefig('roc.jpg')
 
 from sklearn.metrics import confusion_matrix
 
@@ -558,4 +585,7 @@ ax.xaxis.set_ticklabels(['False','True'])
 ax.yaxis.set_ticklabels(['False','True'])
 ## Display the visualization of the Confusion Matrix.
 plt.show()
+plt.savefig('confusionmatrix.jpg')
+
+
 
